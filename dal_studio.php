@@ -23,13 +23,13 @@ function select_all_personaF()
     return $data;
 }
 
-function select_personaF()
+function select_personaF($codiceFiscale)
 {
     $mysqli = db_connect();
-    $sql = "SELECT * FROM persona_fisica WHERE CodiceFiscale=?";
-    $result = $mysqli->query($sql);
-    $data = $result->fetch_all(MYSQLI_ASSOC);
-    $result->free();
+    $stmt = $mysqli->prepare("SELECT * FROM persona_fisica WHERE CodiceFiscale=?");
+    $stmt->bind_param("s", $codiceFiscale);
+    $data = $stmt->execute();
+    $stmt->close();
     $mysqli->close();
     return $data;
 }
@@ -37,22 +37,22 @@ function select_personaF()
 function trova_utente()
 {
     $mysqli = db_connect();
-    $sql = "SELECT d.Nome, d.Cognome FROM dipendente d INNER JOIN utente u ON u.CodiceFIscale = d.CodiceFiscale WHERE u.Email = '$_SESSION[email]'";
-    $result = $mysqli->query($sql);
-    $risposte = mysqli_fetch_row($result);
-    $result->free();
+    $stmt = $mysqli->prepare("SELECT d.Nome, d.Cognome FROM dipendente d INNER JOIN utente u ON u.CodiceFIscale = d.CodiceFiscale WHERE u.Email = ?");
+    $stmt->bind_param("s", $_SESSION['email']);
+    $data = $stmt->execute();
+    $stmt->close();
     $mysqli->close();
-    return $risposte[0];
+    return $data;
 }
 
 function trova_tipo_utente()
 {
     $mysqli = db_connect();
-    $sql = "SELECT Tipo FROM `dipendente d` INNER JOIN utente u ON u.CodiceFIscale = d.CodiceFiscale WHERE u.Email = '$_SESSION[email]'";
-    $result = $mysqli->query($sql);
-    $risposte = mysqli_fetch_row($result);
-    $result->free();
+    $stmt = $mysqli->prepare("SELECT Tipo FROM `dipendente d` INNER JOIN utente u ON u.CodiceFIscale = d.CodiceFiscale WHERE u.Email = ?");
+    $stmt->bind_param("s", $_SESSION['email']);
+    $data = $stmt->execute();
+    $stmt->close();
     $mysqli->close();
-    return $risposte[0];
+    return $data;
 }
 ?>
