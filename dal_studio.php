@@ -12,22 +12,46 @@ function db_connect()
     return $mysqli;
 }
 
-function select_all_personaF()
+function select_all_clienti($persona)
 {
     $mysqli = db_connect();
-    $sql = "SELECT * FROM persona_fisica ORDER BY CodiceFiscale";
+    $sql = "SELECT * FROM $persona";
     $result = $mysqli->query($sql);
     $data = $result->fetch_all(MYSQLI_ASSOC);
     $result->free();
     $mysqli->close();
     return $data;
 }
+// function select_all_clienti($persona)
+// {
+//     $mysqli = db_connect();
+//     $stmt = $mysqli->prepare("SELECT * FROM $persona");
+//     $stmt->execute();
+//     $data = $stmt->get_result();
+//     $stmt->close();
+//     $mysqli->close();
+//     return $data;
+// }
 
 function select_personaF($codiceFiscale)
 {
     $mysqli = db_connect();
     $stmt = $mysqli->prepare("SELECT * FROM persona_fisica WHERE CodiceFiscale=?");
     $stmt->bind_param("s", $codiceFiscale);
+    $data = $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_cliente($id)
+{
+    $mysqli = db_connect();
+    if(strlen($id) == 16)
+        $stmt = $mysqli->prepare("SELECT * FROM persona_fisica WHERE CodiceFiscale = ?");
+    else
+        $stmt = $mysqli->prepare("SELECT * FROM persona_giuridica WHERE NumeroPartitaIVA = ?");
+    $stmt->bind_param("s", $id);
     $data = $stmt->execute();
     $stmt->close();
     $mysqli->close();
