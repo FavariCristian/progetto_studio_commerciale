@@ -1,5 +1,7 @@
 <?php
-// session_start();
+if(!isset($_SESSION)) { 
+    session_start(); 
+  } 
 // if (!isset($_SESSION['email'])) {
 //     header('Location:login.php');
 //     exit;
@@ -9,12 +11,9 @@ include('dal_studio.php');
 ?>
 
 <?php
-$id = $SESSION['Id'];
-$tipo = trova_tipo_utente($id); //non so se serve
-$personaG = trova_clientiG_di($id);//SELECT * FROM persona_giuridica WHERE persona_giuridica.NumeroPartitaIVA IN (SELECT consulenza.PIGiuridica FROM consulenza WHERE consulenza.CFDipendente LIKE "")
+$id = $SESSION['cf'];
+$personaG = select_cliente($id);//SELECT * FROM persona_giuridica WHERE persona_giuridica.NumeroPartitaIVA IN (SELECT consulenza.PIGiuridica FROM consulenza WHERE consulenza.CFDipendente LIKE "")
 ?>
-
-
 
 <h2>Società di capitali e società di persone</h2>
 <table>

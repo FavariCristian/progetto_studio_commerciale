@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(!isset($_SESSION)) { 
+    session_start(); 
+  } 
 include('config.php');
 
 function db_connect()
@@ -22,27 +24,6 @@ function select_all_clienti($persona)
     $mysqli->close();
     return $data;
 }
-// function select_all_clienti($persona)
-// {
-//     $mysqli = db_connect();
-//     $stmt = $mysqli->prepare("SELECT * FROM $persona");
-//     $stmt->execute();
-//     $data = $stmt->get_result();
-//     $stmt->close();
-//     $mysqli->close();
-//     return $data;
-// }
-
-function select_personaF($codiceFiscale)
-{
-    $mysqli = db_connect();
-    $stmt = $mysqli->prepare("SELECT * FROM persona_fisica WHERE CodiceFiscale=?");
-    $stmt->bind_param("s", $codiceFiscale);
-    $data = $stmt->execute();
-    $stmt->close();
-    $mysqli->close();
-    return $data;
-}
 
 function select_cliente($id)
 {
@@ -52,31 +33,88 @@ function select_cliente($id)
     else
         $stmt = $mysqli->prepare("SELECT * FROM persona_giuridica WHERE NumeroPartitaIVA = ?");
     $stmt->bind_param("s", $id);
-    $data = $stmt->execute();
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $result = $data->fetch_assoc();
     $stmt->close();
     $mysqli->close();
-    return $data;
+    return $result;
 }
 
-function trova_utente()
+function select_miei_clientiF($cf)
 {
     $mysqli = db_connect();
-    $stmt = $mysqli->prepare("SELECT d.Nome, d.Cognome FROM dipendente d INNER JOIN utente u ON u.CodiceFIscale = d.CodiceFiscale WHERE u.Email = ?");
-    $stmt->bind_param("s", $_SESSION['email']);
-    $data = $stmt->execute();
+    $stmt = $mysqli->prepare("SELECT p.* FROM persona_fisica p INNER JOIN consulenza c ON p.CodiceFiscale = c.CFFisica INNER JOIN dipendente d ON c.CFDipendente = d.CodiceFiscale WHERE d.CodiceFiscale = ?");
+    $stmt->bind_param("s", $cf);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $result = $data->fetch_assoc();
     $stmt->close();
     $mysqli->close();
-    return $data;
+    return $result;
+    var_dump($result);
+}
+function select_miei_clientiG($pi)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT p.* FROM persona_giuridica p INNER JOIN consulenza c ON p.NumeroPartitaIVA = c.PIGiuridica INNER JOIN dipendente d ON c.CFDipendente = d.CodiceFiscale WHERE d.CodiceFiscale = ?");
+    $stmt->bind_param("s", $pi);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $result = $data->fetch_assoc();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+    var_dump($result);
+}
+function select_dipendente($email)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT d.* FROM dipendente d INNER JOIN utente u ON u.CF_Dip = d.CodiceFiscale WHERE u.Email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $result = $data->fetch_assoc();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+    var_dump($result);
+}
+function select_tirocinante($email)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT t.* FROM tirocinante t INNER JOIN utente u ON u.CF_Tir = t.CodiceFiscale WHERE u.Email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $result = $data->fetch_assoc();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+    var_dump($result);
 }
 
-function trova_tipo_utente()
+
+function select_utente($email)
 {
     $mysqli = db_connect();
-    $stmt = $mysqli->prepare("SELECT Tipo FROM `dipendente d` INNER JOIN utente u ON u.CodiceFIscale = d.CodiceFiscale WHERE u.Email = ?");
-    $stmt->bind_param("s", $_SESSION['email']);
-    $data = $stmt->execute();
+    $stmt = $mysqli->prepare("SELECT * FROM utente WHERE Email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $result = $data->fetch_assoc();
     $stmt->close();
     $mysqli->close();
-    return $data;
+    return $result;
+}
+
+function registra_utente($email, $password, $cFTirocinante, $cFDipendente)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare('INSERT INTO utente (Email, [Password], CF_Tir, CF_Dip) VALUES (?, ?, ?, ?)');
+    $stmt->bind_param("ssss", $email, $password, $cFTirocinante, $cFDipendente);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
 }
 ?>

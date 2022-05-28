@@ -1,17 +1,18 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['email'])) {
-//     header('Location:login.php');
-//     exit;
-// }
+if(!isset($_SESSION)) { 
+    session_start(); 
+  } 
+if (!isset($_SESSION['email'])) {
+    header('Location:login.php');
+    exit;
+}
 //include('template_header.php');
 include('dal_studio.php');
 ?>
 
 <?php
-$id = $SESSION['Id'];
-$tipo = trova_tipo_utente($id); //non so se serve
-$personaF = trova_clientiF_di($id);//SELECT * FROM persona_fisica WHERE persona_fisica.CodiceFiscale IN (SELECT consulenza.CFFisica FROM consulenza WHERE consulenza.CFDipendente LIKE "")
+$id = $_SESSION['Id'];
+$personaF = select_cliente($id);//SELECT * FROM persona_fisica WHERE persona_fisica.CodiceFiscale IN (SELECT consulenza.CFFisica FROM consulenza WHERE consulenza.CFDipendente LIKE "")
 ?>
 
 <h2>Ditte individuali e privati</h2>
