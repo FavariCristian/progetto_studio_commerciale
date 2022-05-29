@@ -6,7 +6,7 @@ if (!isset($_SESSION['email']))
 {
     header('Location:login.php');
 }
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
 
 $personaF = select_all_clienti('persona_fisica');
@@ -60,5 +60,5 @@ $personaG = select_all_clienti('persona_giuridica');
 </table>
 
 <?php
-//include('template_footer.php');
+include('template_footer.php');
 ?>

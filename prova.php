@@ -3,7 +3,7 @@ if(!isset($_SESSION)) {
     session_start(); 
   } 
 
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
 ?>
 
@@ -40,5 +40,5 @@ var_dump($_POST['password']);
 var_dump(password_hash($_POST['password'], PASSWORD_DEFAULT));
 ?>
 <?php
-//include('template_footer.php');
+include('template_footer.php');
 ?>

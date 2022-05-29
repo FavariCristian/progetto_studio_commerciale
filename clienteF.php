@@ -6,7 +6,7 @@ if (!isset($_SESSION['email'])) {
     header('Location:login.php');
     exit;
 }
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
 ?>
 
@@ -116,5 +116,5 @@ if($_SESSION['tipo'] == 'Commercialista') {
 ?>
 
 <?php
-//include('template_footer.php');
+include('template_footer.php');
 ?>

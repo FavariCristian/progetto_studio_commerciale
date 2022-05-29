@@ -3,7 +3,7 @@ if(!isset($_SESSION)) {
     session_start(); 
   } 
 
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
 ?>
 
@@ -47,5 +47,5 @@ else if(isset($_POST['email'])){
 ?>
 
 <?php
-//include('template_footer.php');
+include('template_footer.php');
 ?>
