@@ -40,5 +40,5 @@ var_dump($_POST['password']);
 var_dump(password_hash($_POST['password'], PASSWORD_DEFAULT));
 ?>
 <?php
-//include('template_footer.php');
+include('template_footer.php');
 ?>

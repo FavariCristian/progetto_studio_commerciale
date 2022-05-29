@@ -77,5 +77,5 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
 
 
 <?php
-//include('template_footer.php');
+include('template_footer.php');
 ?>
