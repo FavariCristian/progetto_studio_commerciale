@@ -1,11 +1,9 @@
 <?php
-if(!isset($_SESSION)) { 
-    session_start(); 
-  } 
+session_start();
 include('template_header.php');
 
 session_unset();
-header('Location:login.php');
+header('Location:index.php');
 
 include('template_footer.php');
 ?>
