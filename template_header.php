@@ -51,11 +51,11 @@
                         <div class="u-inner-container-layout u-sidenav-overflow">
                             <div class="u-menu-close"></div>
                             <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.html">Home</a>
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.php">Home</a>
                                 </li>
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Su-di.html">Su di</a>
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Su-di.php">Su di</a>
                                 </li>
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.html">Contatti</a>
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.php">Contatti</a>
                                 </li>
                                 <li class="u-nav-item"><a class="u-button-style u-nav-link" href="login.php">login</a>
                                 </li>
