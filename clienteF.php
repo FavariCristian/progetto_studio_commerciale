@@ -11,35 +11,110 @@ include('dal_studio.php');
 ?>
 
 <?php
-$id = $_SESSION['Id'];
-$personaF = select_cliente($id);//SELECT * FROM persona_fisica WHERE persona_fisica.CodiceFiscale IN (SELECT consulenza.CFFisica FROM consulenza WHERE consulenza.CFDipendente LIKE "")
+$cliente = select_cliente($_POST['CodiceFiscale']);
 ?>
 
-<h2>Ditte individuali e privati</h2>
-<table>
-    <tr>
-        <th>Codice fiscale</th>
-        <th>Cognome</th>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>Telefono</th>
-    </tr>
-    <?php
-    foreach ($personaF as $row) {
-    ?>
-        <tr>
-            <td><a href="clienteF.php?CodiceFiscale=<?= $row['CodiceFiscale'] ?>"><?= $row['CodiceFiscale'] ?></a></td>
-            <td><?= $row['Cognome'] ?></td>
-            <td><?= $row['Nome'] ?></td>
-            <td><?= $row['Email'] ?></td>
-            <td><?= $row['Telefono'] ?></td>
-        </tr>
-    <?php
-    }
-    ?>
-</table>
-
+<h1><?php echo $cliente['Cognome'] . ' ' . $cliente['Nome'] ?></h1>
+<h4><?php echo $cliente['CodiceFiscale'] ?></h3>
+<p>Data e luogo di nascita: <b><?php echo $cliente['LuogoDiNascità'] . ', ' . $cliente['DoB'] ?></b></p>
+<p>Residenza: <b><?php echo $cliente['Città'] . ' - ' . $cliente['Provincia'] . ', ' . $cliente['Indirizzo'] ?></b></p>
+<p>Contatti: <b><?php echo $cliente['Email'] . ' | ' . $cliente['Telefono']?></b></p>
 
 <?php
-include('template_footer.php');
+if($_SESSION['tipo'] == 'Consulenti') {
+    $bustarella = select_bustarelle_cliente($_SESSION['cf'], $_POST['CodiceFiscale']);
+?>
+    <h2>Buste paga</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Mese</th>
+            <th>Importo</th>
+            <th>Costo orario</th>
+            <th>Giornate lavorative</th>
+            <th>Giorni di ferie</th>
+            <th>Giorno di emissione</th>
+            <th>Tirocinante associato</th>
+        </tr>
+        <?php
+        foreach ($bustarella as $row) {
+        ?>
+            <tr>
+                <td><?= $row['IdBustaPaga'] ?></td>
+                <td><?= $row['MeseEAnno'] ?></td>
+                <td><?= $row['Importo'] ?></td>
+                <td><?= $row['CostoOrario'] ?></td>
+                <td><?= $row['NumeroGiornateLavorative'] ?></td>
+                <td><?= $row['GiorniDiFerie'] ?></td>
+                <td><?= $row['GiornoEmissione'] ?></td>
+                <td><a href="tirocinante.php?CodiceFiscale=<?= $row['CodiceFiscale'] ?>"><?= $row['Cognome'] . ' ' . $row['Nome']?></td>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+<?php
+}
+
+if($_SESSION['tipo'] == 'Avvocati') {
+    $pratica = select_pratiche_cliente($_SESSION['cf'], $_POST['CodiceFiscale']);
+?>
+    <h2>Buste paga</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Data inizio</th>
+            <th>Data fine</th>
+            <th>Esito</th>
+            <th>Tirocinante associato</th>
+        </tr>
+        <?php
+        foreach ($pratica as $row) {
+        ?>
+            <tr>
+                <td><?= $row['IdBustaPaga'] ?></td>
+                <td><?= $row['DataInizio'] ?></td>
+                <td><?= $row['DataFine'] ?></td>
+                <td><?= $row['CostoOrario'] ?></td>
+                <td><a href="tirocinante.php?CodiceFiscale=<?= $row['CodiceFiscale'] ?>"><?= $row['Cognome'] . ' ' . $row['Nome']?></td>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+<?php
+}
+
+if($_SESSION['tipo'] == 'Commercialista') {
+    $fattura = select_fatture_cliente($_SESSION['cf'], $_POST['CodiceFiscale']);
+?>
+    <h2>Buste paga</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Numero fattura</th>
+            <th>Importo</th>
+            <th>Data emissione</th>
+            <th>Tirocinante associato</th>
+        </tr>
+        <?php
+        foreach ($fattura as $row) {
+        ?>
+            <tr>
+                <td><?= $row['IdFattura'] ?></td>
+                <td><?= $row['NumeroFattura'] ?></td>
+                <td><?= $row['ImportoDelRicavo'] ?></td>
+                <td><?= $row['DataEmissione'] ?></td>
+                <td><a href="tirocinante.php?CodiceFiscale=<?= $row['CodiceFiscale'] ?>"><?= $row['Cognome'] . ' ' . $row['Nome']?></td>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+<?php
+}
+?>
+
+<?php
+//include('template_footer.php');
 ?>

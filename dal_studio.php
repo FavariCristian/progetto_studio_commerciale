@@ -48,11 +48,9 @@ function select_miei_clientiF($cf)
     $stmt->bind_param("s", $cf);
     $stmt->execute();
     $data = $stmt->get_result();
-    $result = $data->fetch_assoc();
     $stmt->close();
     $mysqli->close();
-    return $result;
-    var_dump($result);
+    return $data;
 }
 function select_miei_clientiG($pi)
 {
@@ -61,11 +59,9 @@ function select_miei_clientiG($pi)
     $stmt->bind_param("s", $pi);
     $stmt->execute();
     $data = $stmt->get_result();
-    $result = $data->fetch_assoc();
     $stmt->close();
     $mysqli->close();
-    return $result;
-    var_dump($result);
+    return $data;
 }
 function select_dipendente($email)
 {
@@ -78,7 +74,6 @@ function select_dipendente($email)
     $stmt->close();
     $mysqli->close();
     return $result;
-    var_dump($result);
 }
 function select_tirocinante($email)
 {
@@ -91,7 +86,6 @@ function select_tirocinante($email)
     $stmt->close();
     $mysqli->close();
     return $result;
-    var_dump($result);
 }
 
 
@@ -116,5 +110,62 @@ function registra_utente($email, $password, $cFTirocinante, $cFDipendente)
     $stmt->execute();
     $stmt->close();
     $mysqli->close();
+}
+
+function select_bustarelle($cf)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ?");
+    $stmt->bind_param("s", $cf);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_bustarelle_cliente($cfU, $id)
+{
+    $mysqli = db_connect();
+    if(strlen($id) == 16)
+        $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica = ?");
+    else
+        $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND PIGiuridica = ?");
+    $stmt->bind_param("ss", $cfU, $id);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_pratiche_cliente($cfU, $id)
+{
+    $mysqli = db_connect();
+    if(strlen($id) == 16)
+        $stmt = $mysqli->prepare("SELECT * FROM pratica p INNER JOIN tirocinante t ON p.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ?");
+    else
+        $stmt = $mysqli->prepare("SELECT * FROM pratica p INNER JOIN tirocinante t ON p.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND PIGiuridica  = ?");
+    $stmt->bind_param("ss", $cfU, $cfC);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_fatture_cliente($cfU, $id)
+{
+    $mysqli = db_connect();
+    if(strlen($id) == 16)
+        $stmt = $mysqli->prepare("SELECT * FROM fattura f INNER JOIN tirocinante t ON f.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ?");
+    else
+        $stmt = $mysqli->prepare("SELECT * FROM fattura f INNER JOIN tirocinante t ON f.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND PIGiuridica  = ?");
+    $stmt->bind_param("ss", $cfU, $cfC);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
 }
 ?>

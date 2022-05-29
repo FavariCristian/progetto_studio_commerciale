@@ -9,7 +9,7 @@ if (!isset($_SESSION['email']))
 //include('template_header.php');
 include('dal_studio.php');
 $utente = select_utente($_SESSION['email']);
-if($_SESSION['tipo_utente'] == 'Tirocinante')
+if($_SESSION['tipo'] == 'Tirocinante')
 $dipendente = select_tirocinante($_SESSION['email']);
 else
 $dipendente = select_dipendente($_POST['email']);
@@ -24,12 +24,13 @@ $dipendente = select_dipendente($_POST['email']);
 </form>
 
 <?php
-var_dump($_SESSION['cf']);
 $personaF = select_miei_clientiF($_SESSION['cf']);
 $personaG = select_miei_clientiG($_SESSION['cf']);
 ?>
 
-<h2>Ditte individuali e privati</h2>
+<h2>I miei clienti</h2>
+
+<h3>Ditte individuali e privati</h3>
 
 <table>
     <tr>
@@ -43,7 +44,12 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
     foreach ($personaF as $row) {
     ?>
         <tr>
-            <td><a href="clienteF.php?CodiceFiscale=<?= $row['CodiceFiscale'] ?>"><?= $row['CodiceFiscale'] ?></a></td>
+            <td>
+            <form action="clienteF.php" method="post">
+                <input type="hidden" name="CodiceFiscale" value=<?= $row['CodiceFiscale'] ?>>
+                <button><?= $row['CodiceFiscale'] ?></button>
+                </form>
+        </td>
             <td><?= $row['Cognome'] ?></td>
             <td><?= $row['Nome'] ?></td>
             <td><?= $row['Email'] ?></td>
@@ -54,7 +60,7 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
     ?>
 </table>
 
-<h2>Società di capitali e società di persone</h2>
+<h3>Società di capitali e società di persone</h3>
 
 <table>
     <tr>
@@ -66,7 +72,12 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
     foreach ($personaG as $row) {
     ?>
         <tr>
-            <td><a href="clienteG.php?NumeroPartitaIVA=<?= $row['NumeroPartitaIVA'] ?>"><?= $row['NumeroPartitaIVA'] ?></a></td>
+            <td>
+                <form action="clienteG.php" method="post">
+                <input type="hidden" name="IVA" value=<?= $row['NumeroPartitaIVA'] ?>>
+                <button><?= $row['NumeroPartitaIVA'] ?></button>
+                </form>
+        </td>
             <td><?= $row['Nome'] ?></td>
             <td><?= $row['Sede'] ?></td>
         </tr>

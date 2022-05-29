@@ -23,11 +23,10 @@ include('dal_studio.php');
 
 <?php
 $utente = select_utente(@$_POST['email']);
-//$dipendente = select_dipendente(@$_POST['email']);
 
 if(@$utente['CF_Dip'] == null){
     $dipendente = select_tirocinante(@$_POST['email']);
-    $_SESSION['tipo_utente'] = 'Tirocinante';
+    $_SESSION['tipo'] = 'Tirocinante';
 }
 else
    $dipendente = select_dipendente(@$_POST['email']);
@@ -35,10 +34,10 @@ else
 if (password_verify(@$_POST['password'], @$utente['Password'])) 
 {
     $_SESSION["email"] = $_POST['email'];
+    $_SESSION['cf'] = $dipendente['CodiceFiscale'];
     $_SESSION['nome'] = $dipendente['Nome'];
     $_SESSION['cognome'] = $dipendente['Cognome'];
-    if(!isset($_SESSION['tipo_utente'])) $_SESSION['tipo_utente'] = $dipendente['Tipo'];
-    $_SESSION['cf'] = $dipendente['CodiceFiscale'];
+    $_SESSION['tipo'] = $dipendente['Tipo'];
     header('Location:ilMioProfilo.php');
 }
 else if(isset($_POST['email'])){
