@@ -1,27 +1,28 @@
 <?php
-if(!isset($_SESSION)) { 
-    session_start(); 
-  } 
+session_start();
 
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
+
+if (isset($_POST["email"])) {
+    $_SESSION["email"] = $_POST["email"];
+    $tipo = trova_tipo_utente();
+    $_SESSION["tipo_utente"] = $tipo;
+    header('Location:il_mio_profilo.php');
+}
 ?>
-
-
-
-<form action="login.php" method="post" required>
 <br>
+<form action="login.php" method="post">
     <label>Email: </label>
-    <input type="text" name="email" required>
-</br>
-<br>
+    <input type="text" id="email" name="email">
     <label>Password: </label>
-    <input type="password" name="password" required>
-<br/>
-    <button type="submit">Login</button>
+    <input type="text" id="password" name="password">
+    <br />
+    <button>Conferma</button>
 </form>
 
 <?php
+<<<<<<< HEAD
 $utente = select_utente(@$_POST['email']);
 
 if(@$utente['CF_Dip'] == null){
@@ -47,4 +48,7 @@ else if(isset($_POST['email'])){
 
 <?php
 //include('template_footer.php');
+=======
+include('template_footer.php');
+>>>>>>> a375c7447695a22ba8b72814002386ce7776958a
 ?>

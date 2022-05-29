@@ -2,11 +2,19 @@
 if(!isset($_SESSION)) { 
     session_start(); 
   } 
+<<<<<<< HEAD
 if (!isset($_SESSION['email'])) {
     header('Location:login.php');
     exit;
 }
 //include('template_header.php');
+=======
+// if (!isset($_SESSION['email'])) {
+//     header('Location:login.php');
+//     exit;
+// }
+include('template_header.php');
+>>>>>>> a375c7447695a22ba8b72814002386ce7776958a
 include('dal_studio.php');
 ?>
 

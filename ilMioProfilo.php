@@ -6,7 +6,7 @@ if (!isset($_SESSION['email']))
 {
     header('Location:login.php');
 }
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
 $utente = select_utente($_SESSION['email']);
 if($_SESSION['tipo'] == 'Tirocinante')
@@ -88,5 +88,5 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
 
 
 <?php
-//include('template_footer.php');
+include('template_footer.php');
 ?>
