@@ -15,7 +15,7 @@ $cliente = select_cliente($_GET['CodiceFiscale']);
 ?>
 
 <h1><?php echo $cliente['Cognome'] . ' ' . $cliente['Nome'] ?></h1>
-<h4><?php echo $cliente['CodiceFiscale'] ?></h3>
+<p>Codice fiscale: <b><?php echo $cliente['CodiceFiscale'] ?></b></p>
 <p>Data e luogo di nascita: <b><?php echo $cliente['LuogoDiNascità'] . ', ' . $cliente['DoB'] ?></b></p>
 <p>Residenza: <b><?php echo $cliente['Città'] . ' - ' . $cliente['Provincia'] . ', ' . $cliente['Indirizzo'] ?></b></p>
 <p>Contatti: <b><?php echo $cliente['Email'] . ' | ' . $cliente['Telefono']?></b></p>

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html style="font-size: 16px;">
 
 <head>
@@ -42,8 +41,16 @@
                         </li>
                         <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Contact.php" style="padding: 10px 20px;">Contact</a>
                         </li>
+                        <?php if (!isset($_SESSION['email'])) { ?>
                         <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="login.php" style="padding: 10px 20px; float: right;">Login</a>
                         </li>
+                        <?php
+                        }
+                        else{ ?>
+                            <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="ilMioProfilo.php" style="padding: 10px 20px; float: right;">Profilo</a>
+                            </li>
+                        <?php                        
+                        }?>
                     </ul>
                 </div>
                 <div class="u-nav-container-collapse">
@@ -57,8 +64,16 @@
                                 </li>
                                 <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.php">Contatti</a>
                                 </li>
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="login.php">login</a>
+                                <?php if (!isset($_SESSION['email'])) { ?>
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="login.php">Login</a>
                                 </li>
+                                <?php
+                                }
+                                else{ ?>
+                                    <li class="u-nav-item"><a class="u-button-style u-nav-link" href="ilMioProfilo.php">Profilo</a>
+                                </li>
+                                <?php                        
+                                }?>
                             </ul>
                         </div>
                     </div>

@@ -3,10 +3,11 @@ if(!isset($_SESSION)) {
     session_start(); 
   } 
 
-include('template_header.php');
+//include('template_header.php');
 include('dal_studio.php');
 ?>
-
+<link rel="stylesheet" href="nicepage.css" media="screen">
+    <link rel="stylesheet" href="Home.css" media="screen">
 
 
 <form action="login.php" method="post" required>
@@ -45,6 +46,7 @@ else if(isset($_POST['email'])){
     echo('Password errata');
 }
 ?>
+
 
 <?php
 include('template_footer.php');

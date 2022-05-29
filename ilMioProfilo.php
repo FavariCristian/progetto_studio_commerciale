@@ -12,7 +12,7 @@ $utente = select_utente($_SESSION['email']);
 if($_SESSION['tipo'] == 'Tirocinante')
 $dipendente = select_tirocinante($_SESSION['email']);
 else
-$dipendente = select_dipendente($_POST['email']);
+$dipendente = select_dipendente($_SESSION['email']);
 
 ?>
 
@@ -28,9 +28,9 @@ $personaF = select_miei_clientiF($_SESSION['cf']);
 $personaG = select_miei_clientiG($_SESSION['cf']);
 ?>
 
-<h2>I miei clienti</h2>
+<h4>I miei clienti</h4>
 
-<h3>Ditte individuali e privati</h3>
+<h5>Ditte individuali e privati</h5>
 
 <table>
     <tr>
@@ -54,8 +54,8 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
     }
     ?>
 </table>
-
-<h3>Società di capitali e società di persone</h3>
+<br>
+<h5>Società di capitali e società di persone</h5>
 
 <table>
     <tr>
