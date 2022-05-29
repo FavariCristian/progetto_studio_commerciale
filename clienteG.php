@@ -6,7 +6,7 @@ if(!isset($_SESSION)) {
 //     header('Location:login.php');
 //     exit;
 // }
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
 ?>
 

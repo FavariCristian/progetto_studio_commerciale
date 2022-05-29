@@ -3,7 +3,7 @@ if(!isset($_SESSION)) {
     session_start(); 
   } 
 
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
 ?>
 

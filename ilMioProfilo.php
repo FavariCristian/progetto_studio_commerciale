@@ -6,7 +6,7 @@ if (!isset($_SESSION['email']))
 {
     header('Location:login.php');
 }
-//include('template_header.php');
+include('template_header.php');
 include('dal_studio.php');
 $utente = select_utente($_SESSION['email']);
 if($_SESSION['tipo_utente'] == 'Tirocinante')
