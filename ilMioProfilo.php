@@ -6,7 +6,7 @@ if (!isset($_SESSION['email']))
 {
     header('Location:login.php');
 }
-include('template_header.php');
+//include('template_header.php');
 include('dal_studio.php');
 $utente = select_utente($_SESSION['email']);
 if($_SESSION['tipo'] == 'Tirocinante')
@@ -44,12 +44,7 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
     foreach ($personaF as $row) {
     ?>
         <tr>
-            <td>
-            <form action="clienteF.php" method="post">
-                <input type="hidden" name="CodiceFiscale" value=<?= $row['CodiceFiscale'] ?>>
-                <button><?= $row['CodiceFiscale'] ?></button>
-                </form>
-        </td>
+            <td><a href="clienteF.php?CodiceFiscale=<?= $row['CodiceFiscale'] ?>"><?= $row['CodiceFiscale'] ?></a></td>
             <td><?= $row['Cognome'] ?></td>
             <td><?= $row['Nome'] ?></td>
             <td><?= $row['Email'] ?></td>
@@ -72,12 +67,7 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
     foreach ($personaG as $row) {
     ?>
         <tr>
-            <td>
-                <form action="clienteG.php" method="post">
-                <input type="hidden" name="IVA" value=<?= $row['NumeroPartitaIVA'] ?>>
-                <button><?= $row['NumeroPartitaIVA'] ?></button>
-                </form>
-        </td>
+            <td><a href="clienteG.php?NumeroPartitaIVA=<?= $row['NumeroPartitaIVA'] ?>"><?= $row['NumeroPartitaIVA'] ?></a></td>
             <td><?= $row['Nome'] ?></td>
             <td><?= $row['Sede'] ?></td>
         </tr>
@@ -88,5 +78,5 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
 
 
 <?php
-include('template_footer.php');
+//include('template_footer.php');
 ?>

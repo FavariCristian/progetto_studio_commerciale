@@ -6,12 +6,12 @@ if (!isset($_SESSION['email'])) {
     header('Location:login.php');
     exit;
 }
-include('template_header.php');
+//include('template_header.php');
 include('dal_studio.php');
 ?>
 
 <?php
-$cliente = select_cliente($_POST['CodiceFiscale']);
+$cliente = select_cliente($_GET['CodiceFiscale']);
 ?>
 
 <h1><?php echo $cliente['Cognome'] . ' ' . $cliente['Nome'] ?></h1>
@@ -22,7 +22,7 @@ $cliente = select_cliente($_POST['CodiceFiscale']);
 
 <?php
 if($_SESSION['tipo'] == 'Consulenti') {
-    $bustarella = select_bustarelle_cliente($_SESSION['cf'], $_POST['CodiceFiscale']);
+    $bustarella = select_bustarelle_cliente($_SESSION['cf'], $_GET['CodiceFiscale']);
 ?>
     <h2>Buste paga</h2>
     <table>
@@ -57,7 +57,7 @@ if($_SESSION['tipo'] == 'Consulenti') {
 }
 
 if($_SESSION['tipo'] == 'Avvocati') {
-    $pratica = select_pratiche_cliente($_SESSION['cf'], $_POST['CodiceFiscale']);
+    $pratica = select_pratiche_cliente($_SESSION['cf'], $_GET['CodiceFiscale']);
 ?>
     <h2>Buste paga</h2>
     <table>
@@ -86,7 +86,7 @@ if($_SESSION['tipo'] == 'Avvocati') {
 }
 
 if($_SESSION['tipo'] == 'Commercialista') {
-    $fattura = select_fatture_cliente($_SESSION['cf'], $_POST['CodiceFiscale']);
+    $fattura = select_fatture_cliente($_SESSION['cf'], $_GET['CodiceFiscale']);
 ?>
     <h2>Buste paga</h2>
     <table>

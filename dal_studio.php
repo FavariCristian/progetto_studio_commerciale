@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(!isset($_SESSION)) { 
+    session_start(); 
+  } 
 include('config.php');
 
 function db_connect()
@@ -12,10 +14,10 @@ function db_connect()
     return $mysqli;
 }
 
-function select_all_personaF()
+function select_all_clienti($persona)
 {
     $mysqli = db_connect();
-    $sql = "SELECT * FROM persona_fisica ORDER BY CodiceFiscale";
+    $sql = "SELECT * FROM $persona";
     $result = $mysqli->query($sql);
     $data = $result->fetch_all(MYSQLI_ASSOC);
     $result->free();
@@ -23,21 +25,25 @@ function select_all_personaF()
     return $data;
 }
 
-function select_personaF()
+function select_cliente($id)
 {
     $mysqli = db_connect();
-    $sql = "SELECT * FROM persona_fisica WHERE CodiceFiscale=?";
-    $result = $mysqli->query($sql);
-    $data = $result->fetch_all(MYSQLI_ASSOC);
-    $result->free();
+    if(strlen($id) == 16)
+        $stmt = $mysqli->prepare("SELECT * FROM persona_fisica WHERE CodiceFiscale = ?");
+    else
+        $stmt = $mysqli->prepare("SELECT * FROM persona_giuridica WHERE NumeroPartitaIVA = ?");
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $result = $data->fetch_assoc();
+    $stmt->close();
     $mysqli->close();
-    return $data;
+    return $result;
 }
 
-function trova_utente()
+function select_miei_clientiF($cf)
 {
     $mysqli = db_connect();
-<<<<<<< HEAD
     $stmt = $mysqli->prepare("SELECT p.* FROM persona_fisica p INNER JOIN consulenza c ON p.CodiceFiscale = c.CFFisica INNER JOIN dipendente d ON c.CFDipendente = d.CodiceFiscale WHERE d.CodiceFiscale = ?");
     $stmt->bind_param("s", $cf);
     $stmt->execute();
@@ -80,25 +86,30 @@ function select_tirocinante($email)
     $stmt->close();
     $mysqli->close();
     return $result;
-=======
-    $sql = "SELECT d.Nome, d.Cognome FROM dipendente d INNER JOIN utente u ON u.CodiceFIscale = d.CodiceFiscale WHERE u.Email = '$_SESSION[email]'";
-    $result = $mysqli->query($sql);
-    $risposte = mysqli_fetch_row($result);
-    $result->free();
-    $mysqli->close();
-    return $risposte[0];
->>>>>>> a375c7447695a22ba8b72814002386ce7776958a
 }
 
-function trova_tipo_utente()
+
+function select_utente($email)
 {
     $mysqli = db_connect();
-    $sql = "SELECT Tipo FROM `dipendente d` INNER JOIN utente u ON u.CodiceFIscale = d.CodiceFiscale WHERE u.Email = '$_SESSION[email]'";
-    $result = $mysqli->query($sql);
-    $risposte = mysqli_fetch_row($result);
-    $result->free();
+    $stmt = $mysqli->prepare("SELECT * FROM utente WHERE Email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $result = $data->fetch_assoc();
+    $stmt->close();
     $mysqli->close();
-    return $risposte[0];
+    return $result;
+}
+
+function registra_utente($email, $password, $cFTirocinante, $cFDipendente)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare('INSERT INTO utente (Email, [Password], CF_Tir, CF_Dip) VALUES (?, ?, ?, ?)');
+    $stmt->bind_param("ssss", $email, $password, $cFTirocinante, $cFDipendente);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
 }
 
 function select_bustarelle($cf)
@@ -113,28 +124,10 @@ function select_bustarelle($cf)
     return $data;
 }
 
-function select_bustarelle_cliente($cfU, $id)
+function select_bustarelle_cliente($cfU, $cfC)
 {
     $mysqli = db_connect();
-    if(strlen($id) == 16)
-        $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica = ?");
-    else
-        $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND PIGiuridica = ?");
-    $stmt->bind_param("ss", $cfU, $id);
-    $stmt->execute();
-    $data = $stmt->get_result();
-    $stmt->close();
-    $mysqli->close();
-    return $data;
-}
-
-function select_pratiche_cliente($cfU, $id)
-{
-    $mysqli = db_connect();
-    if(strlen($id) == 16)
-        $stmt = $mysqli->prepare("SELECT * FROM pratica p INNER JOIN tirocinante t ON p.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ?");
-    else
-        $stmt = $mysqli->prepare("SELECT * FROM pratica p INNER JOIN tirocinante t ON p.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND PIGiuridica  = ?");
+    $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica = ?");
     $stmt->bind_param("ss", $cfU, $cfC);
     $stmt->execute();
     $data = $stmt->get_result();
@@ -143,13 +136,22 @@ function select_pratiche_cliente($cfU, $id)
     return $data;
 }
 
-function select_fatture_cliente($cfU, $id)
+function select_pratiche_cliente($cfU, $cfC)
 {
     $mysqli = db_connect();
-    if(strlen($id) == 16)
-        $stmt = $mysqli->prepare("SELECT * FROM fattura f INNER JOIN tirocinante t ON f.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ?");
-    else
-        $stmt = $mysqli->prepare("SELECT * FROM fattura f INNER JOIN tirocinante t ON f.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND PIGiuridica  = ?");
+    $stmt = $mysqli->prepare("SELECT * FROM pratica p INNER JOIN tirocinante t ON p.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ?");
+    $stmt->bind_param("ss", $cfU, $cfC);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_fatture_cliente($cfU, $cfC)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT * FROM fattura f INNER JOIN tirocinante t ON f.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ?");
     $stmt->bind_param("ss", $cfU, $cfC);
     $stmt->execute();
     $data = $stmt->get_result();
