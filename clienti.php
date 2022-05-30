@@ -12,7 +12,7 @@ include('dal_studio.php');
 $personaF = select_all_clienti('persona_fisica');
 $personaG = select_all_clienti('persona_giuridica');
 ?>
-
+<link href ="ilMioProfilo.css" rel= 'stylesheet'>
 <h2>Ditte individuali e privati</h2>
 
 <table>

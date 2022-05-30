@@ -37,7 +37,7 @@
                     <ul class="u-nav u-unstyled u-nav-1">
                         <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="index.php" style="padding: 10px 20px;">Home</a>
                         </li>
-                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Su-di.php" style="padding: 10px 20px;">Su di</a>
+                        <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Su-di.php" style="padding: 10px 20px;">Su di noi</a>
                         </li>
                         <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Contact.php" style="padding: 10px 20px;">Contact</a>
                         </li>
@@ -48,6 +48,8 @@
                         }
                         else{ ?>
                             <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="ilMioProfilo.php" style="padding: 10px 20px; float: right;">Profilo</a>
+                            </li>
+                            <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="logout.php" style="padding: 10px 20px; float: right;">Logout</a>
                             </li>
                         <?php                        
                         }?>
@@ -60,7 +62,7 @@
                             <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
                                 <li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.php">Home</a>
                                 </li>
-                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Su-di.php">Su di</a>
+                                <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Su-di.php">Su di noi</a>
                                 </li>
                                 <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.php">Contatti</a>
                                 </li>

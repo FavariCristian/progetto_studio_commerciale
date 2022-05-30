@@ -19,7 +19,7 @@ include('template_header.php');
             <div class="u-clearfix u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-gutter-0 u-layout-wrap u-layout-wrap-1">
                 <div class="u-layout">
                     <div class="u-layout-row">
-                        <div class="u-container-style u-image u-layout-cell u-left-cell u-size-30 u-image-1">
+                        <div class>
                             <div class="u-container-layout u-container-layout-1"></div>
                         </div>
                         <div class="u-container-style u-layout-cell u-right-cell u-shape-rectangle u-size-30 u-layout-cell-2">

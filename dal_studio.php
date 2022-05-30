@@ -127,7 +127,7 @@ function select_bustarelle($cf)
 function select_bustarelle_cliente($cfU, $cfC)
 {
     $mysqli = db_connect();
-    $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica = ?");
+    $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica = ? ORDER BY MeseEAnno");
     $stmt->bind_param("ss", $cfU, $cfC);
     $stmt->execute();
     $data = $stmt->get_result();
@@ -139,7 +139,7 @@ function select_bustarelle_cliente($cfU, $cfC)
 function select_pratiche_cliente($cfU, $cfC)
 {
     $mysqli = db_connect();
-    $stmt = $mysqli->prepare("SELECT * FROM pratica p INNER JOIN tirocinante t ON p.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ?");
+    $stmt = $mysqli->prepare("SELECT * FROM pratica p INNER JOIN tirocinante t ON p.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ? ORDER BY DataInizio");
     $stmt->bind_param("ss", $cfU, $cfC);
     $stmt->execute();
     $data = $stmt->get_result();
@@ -151,8 +151,56 @@ function select_pratiche_cliente($cfU, $cfC)
 function select_fatture_cliente($cfU, $cfC)
 {
     $mysqli = db_connect();
-    $stmt = $mysqli->prepare("SELECT * FROM fattura f INNER JOIN tirocinante t ON f.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ?");
+    $stmt = $mysqli->prepare("SELECT * FROM fattura f INNER JOIN tirocinante t ON f.CFTirocinante = t.CodiceFiscale WHERE CFDipendente = ? AND CFFisica  = ? ORDER BY DataEmissione");
     $stmt->bind_param("ss", $cfU, $cfC);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_bustarelle_di_tirocinante($cfU, $cfC)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT * FROM busta_paga b INNER JOIN tirocinante t ON b.CFTirocinante = t.CodiceFiscale WHERE CFTirocinante = ? AND CFFisica = ? ORDER BY MeseEAnno");
+    $stmt->bind_param("ss", $cfU, $cfC);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_pratiche_di_tirocinante($cfU, $cfC)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT * FROM pratica p INNER JOIN tirocinante t ON p.CFTirocinante = t.CodiceFiscale WHERE CFTirocinante = ? AND CFFisica  = ? ORDER BY DataInizio");
+    $stmt->bind_param("ss", $cfU, $cfC);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_fatture_di_tirocinante($cfU, $cfC)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT * FROM fattura f INNER JOIN tirocinante t ON f.CFTirocinante = t.CodiceFiscale WHERE CFTirocinante = ? AND CFFisica  = ? ORDER BY DataEmissione");
+    $stmt->bind_param("ss", $cfU, $cfC);
+    $stmt->execute();
+    $data = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function select_tipo_tirocinante($cfT)
+{
+    $mysqli = db_connect();
+    $stmt = $mysqli->prepare("SELECT d.Tipo, t.* FROM dipendente d INNER JOIN consulenza c ON d.CodiceFiscale = c.CFDipendente INNER JOIN tirocinante t ON c.CFTirocinante = t.CodiceFiscale WHERE t.CodiceFiscale = ?");
+    $stmt->bind_param("s", $cfT);
     $stmt->execute();
     $data = $stmt->get_result();
     $stmt->close();

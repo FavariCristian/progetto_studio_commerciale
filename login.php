@@ -24,7 +24,6 @@ include('dal_studio.php');
 
 <?php
 $utente = select_utente(@$_POST['email']);
-//$dipendente = select_dipendente(@$_POST['email']);
 
 if(@$utente['CF_Dip'] == null){
     $dipendente = select_tirocinante(@$_POST['email']);

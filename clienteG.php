@@ -9,7 +9,7 @@ if (!isset($_SESSION['email'])) {
 include('template_header.php');
 include('dal_studio.php');
 ?>
-
+<link href ="ilMioProfilo.css" rel= 'stylesheet'>
 <?php
 $cliente = select_cliente($_POST['IVA']);
 ?>
@@ -56,7 +56,7 @@ if($_SESSION['tipo'] == 'Consulenti') {
 }
 
 if($_SESSION['tipo'] == 'Avvocati') {
-    $pratica = select_pratiche_cliente($_SESSION['cf'], $_POST['IVA']);
+    $pratica = select_pratiche_cliente($_SESSION['cf'], $_GET['CodiceFiscale']);
 ?>
     <h2>Buste paga</h2>
     <table>
@@ -71,10 +71,10 @@ if($_SESSION['tipo'] == 'Avvocati') {
         foreach ($pratica as $row) {
         ?>
             <tr>
-                <td><?= $row['IdBustaPaga'] ?></td>
+                <td><?= $row['IdPratica'] ?></td>
                 <td><?= $row['DataInizio'] ?></td>
                 <td><?= $row['DataFine'] ?></td>
-                <td><?= $row['CostoOrario'] ?></td>
+                <td><?= $row['Esito'] ?></td>
                 <td><a href="tirocinante.php?CodiceFiscale=<?= $row['CodiceFiscale'] ?>"><?= $row['Cognome'] . ' ' . $row['Nome']?></td>
             </tr>
         <?php

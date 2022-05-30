@@ -11,18 +11,19 @@ include('dal_studio.php');
 ?>
 <link href ="ilMioProfilo.css" rel= 'stylesheet'>
 <?php
-$cliente = select_cliente($_GET['CodiceFiscale']);
+$tirocinante = select_tipo_tirocinante($_GET['tirocinante']);
 ?>
 
-<h1><?php echo $cliente['Cognome'] . ' ' . $cliente['Nome'] ?></h1>
-<p>Codice fiscale: <b><?php echo $cliente['CodiceFiscale'] ?></b></p>
-<p>Data e luogo di nascita: <b><?php echo $cliente['LuogoDiNascità'] . ', ' . $cliente['DoB'] ?></b></p>
-<p>Residenza: <b><?php echo $cliente['Città'] . ' - ' . $cliente['Provincia'] . ', ' . $cliente['Indirizzo'] ?></b></p>
-<p>Contatti: <b><?php echo $cliente['Email'] . ' | ' . $cliente['Telefono']?></b></p>
+<h1><?php echo $cliente['Nome'] ?></h1>
+<p>Codice fiscale: <b><?php echo $tirocinante['CodiceFiscale'] ?></b></p>
+<p>Laurea: <b><?php echo $tirocinante['LaureaTriennale']?></b></p>
+<p>Tipologia tirocinio: <b><?php echo $tirocinante['TipologiaTirocinio']?></b></p>
+<p>Data inizio: <b><?php echo $tirocinante['Sede']?></b></p>
+<br>
 
 <?php
-if($_SESSION['tipo'] == 'Consulenti') {
-    $bustarella = select_bustarelle_cliente($_SESSION['cf'], $_GET['CodiceFiscale']);
+if($tirocinante['Tipo'] == 'Consulenti') {
+    $bustarella = select_bustarelle_di_tirocinante($tirocinante['CodiceFiscale'], $_POST['IVA']);
 ?>
     <h2>Buste paga</h2>
     <table>
@@ -56,8 +57,8 @@ if($_SESSION['tipo'] == 'Consulenti') {
 <?php
 }
 
-if($_SESSION['tipo'] == 'Avvocati') {
-    $pratica = select_pratiche_cliente($_SESSION['cf'], $_GET['CodiceFiscale']);
+if($tirocinante['Tipo'] == 'Avvocati') {
+    $pratica = select_pratiche_di_tirocinante($tirocinante['CodiceFiscale'], $_POST['IVA']);
 ?>
     <h2>Buste paga</h2>
     <table>
@@ -72,10 +73,10 @@ if($_SESSION['tipo'] == 'Avvocati') {
         foreach ($pratica as $row) {
         ?>
             <tr>
-                <td><?= $row['IdPratica'] ?></td>
+                <td><?= $row['IdBustaPaga'] ?></td>
                 <td><?= $row['DataInizio'] ?></td>
                 <td><?= $row['DataFine'] ?></td>
-                <td><?= $row['Esito'] ?></td>
+                <td><?= $row['CostoOrario'] ?></td>
                 <td><a href="tirocinante.php?CodiceFiscale=<?= $row['CodiceFiscale'] ?>"><?= $row['Cognome'] . ' ' . $row['Nome']?></td>
             </tr>
         <?php
@@ -85,8 +86,8 @@ if($_SESSION['tipo'] == 'Avvocati') {
 <?php
 }
 
-if($_SESSION['tipo'] == 'Commercialista') {
-    $fattura = select_fatture_cliente($_SESSION['cf'], $_GET['CodiceFiscale']);
+if($tirocinante['Tipo'] == 'Commercialista') {
+    $fattura = select_fatture_di_tirocinante($tirocinante['CodiceFiscale'], $_POST['IVA']);
 ?>
     <h2>Buste paga</h2>
     <table>
@@ -113,8 +114,5 @@ if($_SESSION['tipo'] == 'Commercialista') {
     </table>
 <?php
 }
-?>
-
-<?php
 include('template_footer.php');
 ?>

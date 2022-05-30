@@ -1,3 +1,5 @@
+<center>
+<section>
 <?php
 if(!isset($_SESSION)) { 
     session_start(); 
@@ -15,13 +17,10 @@ else
 $dipendente = select_dipendente($_SESSION['email']);
 
 ?>
+<link href ="ilMioProfilo.css" rel= 'stylesheet'> 
 
 <h2><?php echo "Salve " . ($_SESSION["nome"]); ?></h2>
 <br />
-
-<form action="logout.php">
-    <button type="submit">Esci dal profilo</button>
-</form>
 
 <?php
 $personaF = select_miei_clientiF($_SESSION['cf']);
@@ -75,8 +74,11 @@ $personaG = select_miei_clientiG($_SESSION['cf']);
     }
     ?>
 </table>
-
+<br/>
+<br/>
 
 <?php
 include('template_footer.php');
 ?>
+</section>
+</center>
